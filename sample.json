@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Author1",
+        "biography": "Lived a lot years ago",
+        "books": [
+            {
+                "title": "Harry Potter and the Sorcerer's Stone",
+                "author": "Author1",
+                "price": 19.99,
+                "genre": "Fantasy",
+                "copies": 5,
+                "borrowed_copies": 1
+            },
+            {
+                "title": "Harry Potter and the Chamber of Secrets",
+                "author": "Author1",
+                "price": 19.99,
+                "genre": "Fantasy",
+                "copies": 5,
+                "borrowed_copies": 2
+            }
+        ]
+    },
+    {
+        "name": "Author2",
+        "biography": "Lived a lot years ago2",
+        "books": [
+            {
+                "title": "Book1",
+                "author": "Author2",
+                "price": 19.99,
+                "genre": "Comedy",
+                "copies": 5,
+                "borrowed_copies": 2
+            },
+            {
+                "title": "Book3",
+                "author": "Author2",
+                "price": 19.99,
+                "genre": "Fantasy",
+                "copies": 5,
+                "borrowed_copies": 2
+            }
+        ]
+    }
+]

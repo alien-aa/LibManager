@@ -1,0 +1,16 @@
+[
+    {
+        "username": "user_admin",
+        "email": "123",
+        "admin": true,
+        "currently_borrowed": [],
+        "password_hash": "$2b$12$O726xCD8b4wmtUySkbQ0geRQfALGbjHEZl0CLWdUt8qlvGCOd3p2S"
+    },
+    {
+        "username": "user",
+        "email": "qwe",
+        "admin": false,
+        "currently_borrowed": [],
+        "password_hash": "$2b$12$qDMt.iClyc/hq88AwYcSOuX7cL2oIzZ.mO5wX0w/SIbxYCbmXpxB."
+    }
+]
