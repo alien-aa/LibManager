@@ -315,7 +315,7 @@ class UserManager(IUserManager):
                  library: Library = None,
                  view: IManagerView = None,
                  provider: IUserProvider = None):
-        super().__init__(view)
+        super().__init__(view=view, provider=provider)
         self._library = library
 
     @property
