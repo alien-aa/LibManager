@@ -23,7 +23,7 @@ class JsonLibProvider(ILibProvider):
                 json.dump(data, file, indent=4)
         except FileNotFoundError:
             return
-        except IOError as e:
+        except IOError:
             return
 
 

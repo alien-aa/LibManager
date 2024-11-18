@@ -2,15 +2,21 @@ import argparse
 
 from model.author import Author
 from model.user import User
+from model.manager import LibManager, UserManager, Library
+
 from views.view import View
 from views.managerview import ManagerView
+
 from controllers.controller import LibController, UserController
-from model.manager import LibManager, UserManager, Library
+
+from providers.jsonprovider import JsonLibProvider, JsonUserProvider
+from providers.xmlprovider import XmlLibProvider, XmlUserProvider
 
 
 def main(lib_file: str = '', user_file: str = '') -> None:
     file_format_lib = lib_file.split('.')[-1].lower()
     file_format_users = user_file.split('.')[-1].lower()
+    data_provider, user_provider = None, None
     if file_format_lib == 'json':
         data_provider = JsonLibProvider(lib_file)
     elif file_format_lib == 'xml':
@@ -25,9 +31,10 @@ def main(lib_file: str = '', user_file: str = '') -> None:
     else:
         print("Unsupported users file format!")
         return
-    lib = Library()
+    lib = Library([], [], [], None)
     lib_manager = LibManager(library=lib, view=ManagerView(), provider=data_provider)
     user_manager = UserManager(library=lib, view=ManagerView(), provider=user_provider)
+    print(lib_manager.provider)
     lib_data_load = lib_manager.provider.load()
     user_data_load = user_manager.provider.load()
     for item in lib_data_load:

@@ -1,6 +1,11 @@
 from abc import ABC, abstractmethod
 
+from model.imanager import ILibManager, IUserManager
+
 class ILibController(ABC):
+    def __init__(self,
+                 model: ILibManager = None):
+        self._model = model
     @abstractmethod
     def event_search_book(self) -> bool:
         pass
@@ -43,6 +48,10 @@ class ILibController(ABC):
 
 
 class IUserController(ABC):
+    def __init__(self,
+                 model: IUserManager = None):
+        self._model = model
+
     @abstractmethod
     def event_login(self) -> bool:
         pass

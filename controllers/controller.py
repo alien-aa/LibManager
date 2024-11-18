@@ -3,42 +3,42 @@ from model.imanager import IUserManager, ILibManager
 
 
 class LibController(ILibController):
-    def __init__(self,
-                 model: ILibManager = None):
-        self._model = model
+    def __init__(self, model: ILibManager = None):
+        super().__init__(model)
 
     def _choose_book(self) -> dict | None:
-        self._model.view.show_msg("Enter the title of the book:\n>>>")
+        self._model.view.show_msg("Enter the title of the book:")
         title = input()
-        self._model.view.show_msg("Enter the name of the author or press Enter to skip:\n>>>")
+        self._model.view.show_msg("Enter the name of the author or press Enter to skip:")
         author = input()
         book_list = self._model.get_books_list(title=title, author=author)
         if book_list is None:
             return None
         number = -1
         while number <= 0 or number > len(book_list):
-            self._model.view.show_msg("Enter the number of book you want to reserve:\n>>>")
-            number = int(input())
-        return book_list[number]
+            try:
+                self._model.view.show_msg("Enter the number of book you want to reserve (greater than 0):")
+                number = int(input())
+            except ValueError:
+                self._model.view.show_error("It is not int value. Enter valid int value.")
+        return book_list[number-1]
 
     def _choose_author(self) -> dict | None:
-        self._model.view.show_msg("Enter the name of the author:\n>>>")
+        self._model.view.show_msg("Enter the name of the author:")
         author = input()
         result = self._model.get_author(author=author)
         return result
 
 
-
-
     def event_search_book(self) -> bool:
-        self._model.view.show_msg("Enter the title of the book to search:\n>>>")
+        self._model.view.show_msg("Enter the title of the book to search:")
         title = input()
-        self._model.view.show_msg("Enter the name of the author to search or press Enter to skip:\n>>>")
+        self._model.view.show_msg("Enter the name of the author to search or press Enter to skip:")
         author = input()
         return self._model.show_books(title=title, author=author)
 
     def event_search_author(self) -> bool:
-        self._model.view.show_msg("Enter the name of the author to search:\n>>>")
+        self._model.view.show_msg("Enter the name of the author to search:")
         author = input()
         return self._model.show_authors_page(author=author)
 
@@ -57,20 +57,25 @@ class LibController(ILibController):
                                        price=item["price"], genre=item["genre"])
 
     def event_add_book(self) -> bool:
-        self._model.view.show_msg("Enter the title of the book:\n>>>")
+        self._model.view.show_msg("Enter the title of the book:")
         title = input()
-        self._model.view.show_msg("Enter the name of the author:\n>>>")
+        self._model.view.show_msg("Enter the name of the author:")
         author = input()
-        self._model.view.show_msg("Enter the price of the book:\n>>>")
-        price = float(input())
-        self._model.view.show_msg("Enter the genre of the book:\n>>>")
+        price = -1
+        while price < 0:
+            try:
+                self._model.view.show_msg("Enter the price of the book:")
+                price = float(input())
+            except ValueError:
+                self._model.view.show_error("It is not float value. Enter valid float value.")
+        self._model.view.show_msg("Enter the genre of the book:")
         genre = input()
         return self._model.add_book(title=title, author_name=author, price=price, genre=genre)
 
     def event_add_author(self) -> bool:
-        self._model.view.show_msg("Enter the name of the author:\n>>>")
+        self._model.view.show_msg("Enter the name of the author:")
         author = input()
-        self._model.view.show_msg("Enter the biography of the author:\n>>>")
+        self._model.view.show_msg("Enter the biography of the author:")
         biography = input()
         return self._model.add_author(author=author, biography=biography)
 
@@ -78,13 +83,13 @@ class LibController(ILibController):
         item = self._choose_book()
         if item is None:
             return False
-        self._model.view.show_msg("Enter the new title of the book or press Enter to skip:\n>>>")
+        self._model.view.show_msg("Enter the new title of the book or press Enter to skip:")
         title = input()
-        self._model.view.show_msg("Enter the new author of the book or press Enter to skip:\n>>>")
+        self._model.view.show_msg("Enter the new author of the book or press Enter to skip:")
         author = input()
         while True:
             try:
-                self._model.view.show_msg("Enter the new price of the book or enter -1 to skip:\n>>>")
+                self._model.view.show_msg("Enter the new price of the book or enter -1 to skip:")
                 price = float(input())
                 if price == -1:
                     break
@@ -93,8 +98,8 @@ class LibController(ILibController):
                     continue
                 break
             except ValueError:
-                self._model.view.show_error("Invalid input. Please enter a numeric value for the price.")
-        self._model.view.show_msg("Enter the new genre of the book:\n>>>")
+                self._model.view.show_error("It is not float value. Enter valid float value.")
+        self._model.view.show_msg("Enter the new genre of the book:")
         genre = input()
         return self._model.edit_book(old_title=item["title"], old_author=item["author"],
                                      old_price=item["price"], old_genre=item["genre"],
@@ -105,17 +110,23 @@ class LibController(ILibController):
         item = self._choose_author()
         if item is None:
             return False
-        self._model.view.show_msg("Enter the new name of the author:\n>>>")
+        self._model.view.show_msg("Enter the new name of the author:")
         author = input()
-        self._model.view.show_msg("Enter the new biography of the author:\n>>>")
+        self._model.view.show_msg("Enter the new biography of the author:")
         biography = input()
         return self._model.edit_author(old_name=item["name"], old_biography=item["biography"],
                                        name=author, biography=biography)
 
     def event_delete_book(self) -> bool:
         item = self._choose_book()
-        self._model.view.show_msg("Enter how many copies of book you want to delete:\n>>>")
-        copies = int(input())
+        self._model.view.show_msg("Enter how many copies of book you want to delete:")
+        copies = -1
+        while copies <= 0:
+            try:
+                self._model.view.show_msg("Enter the number of book you want to reserve (greater than 0):")
+                copies = int(input())
+            except ValueError:
+                self._model.view.show_error("It is not int value. Enter valid int value.")
         return self._model.delete_book(title=item["title"], author=item["author"],
                                        price=item["price"], genre=item["genre"], copies=copies)
 
@@ -126,14 +137,13 @@ class LibController(ILibController):
         return self._model.delete_author(author=item["name"])
 
 class UserController(IUserController):
-    def __init__(self,
-                 model: IUserManager = None):
-        self._model = model
+    def __init__(self, model: IUserManager = None):
+        super().__init__(model)
 
     def event_login(self) -> bool:
-        self._model.view.show_msg("Enter username:\n>>>")
+        self._model.view.show_msg("Enter username:")
         username = input()
-        self._model.view.show_msg("Enter password:\n>>>")
+        self._model.view.show_msg("Enter password:")
         passw = input()
         return self._model.login(username=username, password=passw)
 
@@ -141,24 +151,24 @@ class UserController(IUserController):
         return self._model.logout()
 
     def event_register(self) -> bool:
-        self._model.view.show_msg("Enter your username:\n>>>")
+        self._model.view.show_msg("Enter your username:")
         username = input()
-        self._model.view.show_msg("Enter your email:\n>>>")
+        self._model.view.show_msg("Enter your email:")
         email = input()
-        self._model.view.show_msg("Enter the administrator's code word (press Enter to skip):\n>>>")
+        self._model.view.show_msg("Enter the administrator's code word (press Enter to skip):")
         status = True if input() == "ADMIN" else False
         passw = ''
         while len(passw) < 1:
-            self._model.view.show_msg("Enter your password (at least 1 symbol):\n>>>")
+            self._model.view.show_msg("Enter your password (at least 1 symbol):")
             passw = input()
         return self._model.new_user(username=username, email=email, status=status, password=passw)
 
     def event_update(self) -> bool:
-        self._model.view.show_msg("Please enter new username or press Enter to skip:\n>>>")
+        self._model.view.show_msg("Please enter new username or press Enter to skip:")
         username = input()
-        self._model.view.show_msg("Please enter new email address or press Enter to skip:\n>>>")
+        self._model.view.show_msg("Please enter new email address or press Enter to skip:")
         email = input()
-        self._model.view.show_msg("Please enter new password or press Enter to skip:\n>>>")
+        self._model.view.show_msg("Please enter new password or press Enter to skip:")
         passw = input()
         return self._model.update_user(username=username,email=email,password=passw)
 

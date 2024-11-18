@@ -12,6 +12,13 @@ class View(IView):
         self._lib_controller = lib_controller
         self._user_controller = user_controller
 
+    @staticmethod
+    def _wait_for_continue() -> None:
+        while True:
+            print("Press Enter to continue...")
+            if len(input()) >= 0:
+                return
+
     def main_menu(self) -> None:
         while True:
             os.system('cls')
@@ -33,9 +40,7 @@ class View(IView):
             elif selection_menu == "Library Management":
                 self.lib_menu()
             elif selection_menu == "Exit":
-                #TODO: дёрнуть контроллер для сохранения
                 os.system('cls')
-                self.show_msg("Thank you for choosing LibManager!")
                 break
 
     def lib_menu(self) -> None:
@@ -67,43 +72,62 @@ class View(IView):
                 if not self._lib_controller.event_search_book():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Search Author":
                 if not self._lib_controller.event_search_author():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Reserve Book":
                 if not self._lib_controller.event_reserve():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Return Book":
                 if not self._lib_controller.event_return():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Add New Book (admin only)":
                 if not self._lib_controller.event_add_book():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Add New Author (admin only)":
                 if not self._lib_controller.event_add_author():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Edit Book Fields (admin only)":
                 if not self._lib_controller.event_edit_book():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Edit Author Fields (admin only)":
-                os.system('cls')
                 if not self._lib_controller.event_edit_author():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Delete Book (admin only)":
                 if not self._lib_controller.event_delete_book():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Delete Author (admin only)":
                 if not self._lib_controller.event_delete_author():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Back to Main Menu":
                 os.system('cls')
                 break
@@ -128,11 +152,12 @@ class View(IView):
             answer = inquirer.prompt(question_menu)
             selection_menu = answer.get("selection_menu")
             os.system('cls')
-            #TODO: после реализации контроллера подумать, когда какую задержку надо ставить
             if selection_menu == "Login":
                 if not self._user_controller.event_login():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Logout":
                 self._user_controller.event_logout()
                 time.sleep(2)
@@ -141,6 +166,8 @@ class View(IView):
                 if not  self._user_controller.event_register():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Update User Info":
                 self._user_controller.event_update()
                 time.sleep(2)
@@ -149,6 +176,8 @@ class View(IView):
                 if not  self._user_controller.event_delete():
                     time.sleep(2)
                     continue
+                else:
+                    self._wait_for_continue()
             elif selection_menu == "Back to Main Menu":
                 os.system('cls')
                 break
