@@ -22,7 +22,7 @@ class LibController(ILibController):
                 number = int(input())
             except ValueError:
                 self._model.view.show_error("It is not int value. Enter valid int value.")
-        return book_list[number]
+        return book_list[number-1]
 
     def _choose_author(self) -> dict | None:
         self._model.view.show_msg("Enter the name of the author:")
