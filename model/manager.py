@@ -2,9 +2,11 @@ from model.imanager import ILibManager, IUserManager
 from model.book import Book
 from model.author import Author
 from model.user import User
+
 from providers.iprovider import ILibProvider, IUserProvider
 
 from views.imanagerview import IManagerView
+
 
 class Library:
     def __init__(self,
@@ -86,9 +88,9 @@ class LibManager(ILibManager):
             return True
         return False
 
-    def get_books_list(self, title: str = '', author: str = '') -> list[dict] | None:
+    def get_books_list(self, title: str = "", author: str = "") -> list[dict] | None:
         book_list = self._find_books(title=title, author=author)
-        self.view.show_msg("Here's what we managed to find for your query:")
+        self.view.show_msg("Here\'s what we managed to find for your query:")
         if len(book_list) == 0:
             self.view.show_msg("Empty book list.")
             return None
@@ -101,13 +103,13 @@ class LibManager(ILibManager):
             num += 1
         return return_list
 
-    def get_author(self, author: str = '') -> dict | None:
+    def get_author(self, author: str = "") -> dict | None:
         result = self._find_author(author_name=author)
         return result.to_dict() if result is not None else None
 
-    def show_books(self, title: str = '', author: str = '') -> bool:
+    def show_books(self, title: str = "", author: str = "") -> bool:
         book_list = self._find_books(title=title, author=author)
-        self.view.show_msg("Here's what we managed to find for your query:")
+        self.view.show_msg("Here\'s what we managed to find for your query:")
         if len(book_list) == 0:
             self.view.show_msg("Empty book list.")
             return False
@@ -118,22 +120,22 @@ class LibManager(ILibManager):
             num += 1
         return True
 
-    def show_authors_page(self, author: str = '') -> bool:
+    def show_authors_page(self, author: str = "") -> bool:
         author_found = self._find_author(author_name=author)
-        self.view.show_msg("Here's what we managed to find for your query:")
+        self.view.show_msg("Here\'s what we managed to find for your query:")
         if author_found is None:
             self.view.show_msg("Author not found.")
             return False
         self.view.show_msg(f"{author_found}")
         return False
 
-    def reserve_book(self, title: str = '', author_name: str = '', price: float = 0.0, genre: str = '') -> bool:
+    def reserve_book(self, title: str = "", author_name: str = "", price: float = 0.0, genre: str = "") -> bool:
         if self._library.current_user is None:
-            self.view.show_error('You could not reserve book without logging in')
+            self.view.show_error("You could not reserve book without logging in")
             return False
         book_list = self._find_books(title=title, author=author_name)
         if len(book_list) == 0:
-            self.view.show_error('Book not found')
+            self.view.show_error("Book not found")
             return False
         book = None
         for item in book_list:
@@ -141,26 +143,26 @@ class LibManager(ILibManager):
                 book = item
                 break
         if book is None:
-            self.view.show_error('Book not found')
+            self.view.show_error("Book not found")
             return False
         if book in self._library.current_user.currently_borrowed:
-            self.view.show_error('The book has already been reserved.')
+            self.view.show_error("The book has already been reserved.")
             return False
         if book.copies - book.borrowed_copies < 1:
-            self.view.show_error('There are no copies left for the reservation.')
+            self.view.show_error("There are no copies left for the reservation.")
             return False
         book.borrowed_copies += 1
         self._library.current_user.currently_borrowed.append(book)
-        self.view.show_msg(f'Book \"{book.title}\" by {book.author} has been successfully reserved.')
+        self.view.show_msg(f"Book \"{book.title}\" by {book.author} has been successfully reserved.")
         return True
 
-    def return_book(self, title: str = '', author_name: str = '', price: float = 0.0, genre: str = '') -> bool:
+    def return_book(self, title: str = "", author_name: str = "", price: float = 0.0, genre: str = "") -> bool:
         if self._library.current_user is None:
-            self.view.show_error('You could not return book without logging in')
+            self.view.show_error("You could not return book without logging in")
             return False
         book_list = self._find_books(title=title, author=author_name)
         if len(book_list) == 0:
-            self.view.show_error('Book not found')
+            self.view.show_error("Book not found")
             return False
         book = None
         for item in book_list:
@@ -168,17 +170,17 @@ class LibManager(ILibManager):
                 book = item
                 break
         if book is None:
-            self.view.show_error('Book not found')
+            self.view.show_error("Book not found")
             return False
         if book not in self._library.current_user.currently_borrowed:
-            self.view.show_error('The book was not reserved by this user.')
+            self.view.show_error("The book was not reserved by this user.")
             return False
         book.borrowed_copies -= 1
         self._library.current_user.currently_borrowed.remove(book)
-        self.view.show_msg(f'Book \"{book.title}\" by {book.author} has been successfully returned.')
+        self.view.show_msg(f"Book \"{book.title}\" by {book.author} has been successfully returned.")
         return True
 
-    def add_book(self, title: str = '', author_name: str = '', price: float = 0.0, genre: str = '') -> bool:
+    def add_book(self, title: str = "", author_name: str = "", price: float = 0.0, genre: str = "") -> bool:
         if self._status_error_check():
             return False
         if price < 0:
@@ -202,8 +204,8 @@ class LibManager(ILibManager):
         return True
 
     def edit_book(self,
-                  old_title: str = '', old_author: str = '', old_price: float = 0.0, old_genre: str = '',
-                  title: str = '', author: str = '', price: float = -1, genre: str = '') -> bool:
+                  old_title: str = "", old_author: str = "", old_price: float = 0.0, old_genre: str = "",
+                  title: str = "", author: str = "", price: float = -1, genre: str = "") -> bool:
         if self._status_error_check():
             return False
         book_list = self._find_books(title=old_title, author=old_author)
@@ -225,7 +227,7 @@ class LibManager(ILibManager):
             old_author.books.remove(found_book)
             found_book.author = author
             if not self._find_author(author):
-                self.add_author(author=author, biography='')
+                self.add_author(author=author, biography="")
             new_author = self._find_author(author)
             new_author.books.append(found_book)
         if price >= 0:
@@ -235,7 +237,7 @@ class LibManager(ILibManager):
         self.view.show_msg("Book edited successfully.")
         return True
 
-    def delete_book(self, title: str = '', author: str = '', price: float = 0.0, genre: str = '',
+    def delete_book(self, title: str = "", author: str = "", price: float = 0.0, genre: str = "",
                     copies: int = 1) -> bool:
         if self._status_error_check():
             return False
@@ -259,7 +261,7 @@ class LibManager(ILibManager):
         self.view.show_msg("Book deleted successfully.")
         return True
 
-    def add_author(self, author: str = '', biography: str = '') -> bool:
+    def add_author(self, author: str = "", biography: str = "") -> bool:
         if self._status_error_check():
             return False
         if author in self._library.authors:
@@ -267,12 +269,12 @@ class LibManager(ILibManager):
             return False
         new_author = Author(name=author, biography=biography)
         self._library.authors.append(new_author)
-        self.view.show_msg(f"{new_author.name}'s page added successfully.")
+        self.view.show_msg(f"{new_author.name}\'s page added successfully.")
         return True
 
     def edit_author(self,
-                    old_name: str = '', old_biography: str = '',
-                    name: str = '', biography: str = '') -> bool:
+                    old_name: str = "", old_biography: str = "",
+                    name: str = "", biography: str = "") -> bool:
         if self._status_error_check():
             return False
         found_author = self._find_author(author_name=old_name)
@@ -286,18 +288,18 @@ class LibManager(ILibManager):
             found_author.name = name
             for item in found_author.books:
                 self.edit_book(old_title=item.title, old_author=item.author, old_price=item.price, old_genre=item.genre,
-                               title='', author=name, price=-1, genre='')
+                               title="", author=name, price=-1, genre="")
         if biography:
             found_author.biography = biography
-        self.view.show_msg("Author's page edited successfully.")
+        self.view.show_msg("Author\'s page edited successfully.")
         return True
 
-    def delete_author(self, author: str = '') -> bool:
+    def delete_author(self, author: str = "") -> bool:
         if self._status_error_check():
             return False
         author_found = self._find_author(author_name=author)
         if not author_found:
-            self.view.show_error("Author's page not found.")
+            self.view.show_error("Author\'s page not found.")
             return False
         if any(book.borrowed_copies > 0 for book in author_found.books):
             self.view.show_error("Is not available to delete.")
@@ -306,7 +308,7 @@ class LibManager(ILibManager):
             self._library.books.remove(item)
         author_found.books.clear()
         self._library.authors.remove(author_found)
-        self.view.show_msg("Author's page deleted successfully.")
+        self.view.show_msg("Author\'s page deleted successfully.")
         return True
 
 
@@ -330,7 +332,7 @@ class UserManager(IUserManager):
     def library(self) -> Library:
         return self._library
 
-    def login(self, username: str = '', password: str = '') -> bool:
+    def login(self, username: str = "", password: str = "") -> bool:
         if self._library.current_user is not None:
             self.view.show_error("You already logged in")
             return False
@@ -381,11 +383,11 @@ class UserManager(IUserManager):
         return True
 
     def update_user(self, username: str = "", email: str = "", password: str = "") -> bool:
-        if username != '':
+        if username != "":
             self._library.current_user.username = username
-        if email != '':
+        if email != "":
             self._library.current_user.email = email
-        if password != '':
+        if password != "":
             self._library.current_user.password_hash = password
         self.view.show_msg("User fields updated successfully.")
         return True

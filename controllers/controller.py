@@ -3,9 +3,8 @@ from model.imanager import IUserManager, ILibManager
 
 
 class LibController(ILibController):
-    def __init__(self,
-                 model: ILibManager = None):
-        self._model = model
+    def __init__(self, model: ILibManager = None):
+        super().__init__(model)
 
     def _choose_book(self) -> dict | None:
         self._model.view.show_msg("Enter the title of the book:")
@@ -29,8 +28,6 @@ class LibController(ILibController):
         author = input()
         result = self._model.get_author(author=author)
         return result
-
-
 
 
     def event_search_book(self) -> bool:
@@ -140,9 +137,8 @@ class LibController(ILibController):
         return self._model.delete_author(author=item["name"])
 
 class UserController(IUserController):
-    def __init__(self,
-                 model: IUserManager = None):
-        self._model = model
+    def __init__(self, model: IUserManager = None):
+        super().__init__(model)
 
     def event_login(self) -> bool:
         self._model.view.show_msg("Enter username:")

@@ -59,6 +59,11 @@ class User:
         self._password_hash = value_hash
 
     def __str__(self) -> str:
+        """
+        It is not used in current version of LibManager, but may be helpful in future versions or
+        your projects based of LibManager.
+        :return: string-view of User object
+        """
         books_list = "\n".join(book.title for book in self.currently_borrowed) if self.currently_borrowed else 'The user has no borrowed books.'
         return (f"Username: {self.username}\n"
                 f"Email: {self.email}\n"
@@ -84,5 +89,4 @@ class User:
             self.currently_borrowed.append(new_one)
         self.load_password_hash(data["password_hash"].encode('utf-8'))
         return
-
 
