@@ -48,9 +48,7 @@ def main(lib_file: str = '', user_file: str = '') -> None:
         new_user.from_dict(item)
         user_manager.library.users.append(new_user)
     main_view = View(LibController(lib_manager), UserController(user_manager))
-    print(lib_manager.library)
-    print(user_manager.library)
-    #main_view.main_menu()
+    main_view.main_menu()
     lib_data_save = []
     user_data_save = []
     for item in lib_manager.library.authors:
