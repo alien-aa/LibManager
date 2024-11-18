@@ -68,7 +68,7 @@ class View(IView):
                 else:
                     while True:
                         print("Press Enter to continue...")
-                        if input():
+                        if len(input()) >= 0:
                             break
             elif selection_menu == "Search Author":
                 if not self._lib_controller.event_search_author():
