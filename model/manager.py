@@ -358,6 +358,9 @@ class UserManager(IUserManager):
         return True
 
     def new_user(self, username: str = "", email: str = "", status: bool = False, password: str = "") -> bool:
+        if self._library.current_user is not None:
+            self.view.show_error("You already logged in")
+            return False
         if (any(user.username == username for user in self._library.users)
             or any(user.email == email for user in self._library.users)):
             self.view.show_error("User already exists.")
