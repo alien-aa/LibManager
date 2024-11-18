@@ -33,9 +33,7 @@ class View(IView):
             elif selection_menu == "Library Management":
                 self.lib_menu()
             elif selection_menu == "Exit":
-                #TODO: дёрнуть контроллер для сохранения
                 os.system('cls')
-                self.show_msg("Thank you for choosing LibManager!")
                 break
 
     def lib_menu(self) -> None:
