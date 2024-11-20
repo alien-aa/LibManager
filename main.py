@@ -31,6 +31,7 @@ def main(lib_file: str = '', user_file: str = '') -> None:
     else:
         print("Unsupported users file format!")
         return
+    
     lib = Library([], [], [], None)
     lib_manager = LibManager(library=lib, view=ManagerView(), provider=data_provider)
     user_manager = UserManager(library=lib, view=ManagerView(), provider=user_provider)
@@ -47,6 +48,7 @@ def main(lib_file: str = '', user_file: str = '') -> None:
         new_user = User()
         new_user.from_dict(item)
         user_manager.library.users.append(new_user)
+        
     main_view = View(LibController(lib_manager), UserController(user_manager))
     main_view.main_menu()
     lib_data_save = []

@@ -9,7 +9,7 @@
                 "price": 19.99,
                 "genre": "Fantasy",
                 "copies": 5,
-                "borrowed_copies": 1
+                "borrowed_copies": 0
             },
             {
                 "title": "Harry Potter and the Chamber of Secrets",
@@ -17,7 +17,7 @@
                 "price": 19.99,
                 "genre": "Fantasy",
                 "copies": 5,
-                "borrowed_copies": 2
+                "borrowed_copies": 0
             }
         ]
     },
@@ -31,7 +31,7 @@
                 "price": 19.99,
                 "genre": "Comedy",
                 "copies": 5,
-                "borrowed_copies": 2
+                "borrowed_copies": 0
             },
             {
                 "title": "Book3",
@@ -39,7 +39,7 @@
                 "price": 19.99,
                 "genre": "Fantasy",
                 "copies": 5,
-                "borrowed_copies": 2
+                "borrowed_copies": 0
             }
         ]
     }
